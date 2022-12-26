@@ -1,0 +1,16 @@
+{
+  "name": "desafio03",
+  "version": "1.0.0",
+  "description": "conexion BD + express + PG",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "NODE",
+    "EXPRESS",
+    "POSTGRESS"
+  ],
+  "author": "Cristian Venegas",
+  "license": "MIT"
+}
