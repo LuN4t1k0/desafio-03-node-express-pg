@@ -2,16 +2,19 @@ const express = require("express");
 const app = express();
 
 const cors = require("cors");
-const { getPost, addPost, updateLike } = require("./controller/post");
+const {
+  getPost,
+  addPost,
+  deletePost,
+  updateLike,
+} = require("./controller/post");
 require("dotenv").config({ path: "./.env" });
 
 const PORT = process.env.PORT || 3001;
 
-app.use(express.json());
 app.use(cors());
-
-/* Este es un middleware que nos permite servir archivos estáticos. */
 app.use(express.static("public"));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   try {
@@ -29,6 +32,7 @@ app.get("/posts", async (req, res) => {
       titulo: p.titulo,
       img: p.img,
       descripcion: p.description,
+      likes: p.likes
     }));
     res.json(modificado);
   } catch (error) {
@@ -49,8 +53,9 @@ app.post("/posts", async (req, res) => {
 
 app.put("/posts/like/:id", async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   try {
-    await addLike(id);
+    await updateLike(id);
     res.status(200).json({
       message: "Post Actualizado",
     });
