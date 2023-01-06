@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 const cors = require("cors");
-const { getPost, addPost } = require("./controller/post");
+const { getPost, addPost, updateLike } = require("./controller/post");
 require("dotenv").config({ path: "./.env" });
 
 const PORT = process.env.PORT || 3001;
@@ -39,16 +39,39 @@ app.get("/posts", async (req, res) => {
 app.post("/posts", async (req, res) => {
   try {
     const { titulo, url, descripcion, likes } = req.body;
-    console.log(req.body);
-
-    // if (Object.values(cancion).some((value) => value === "")) {
-    //   return res.status(400).json({ message: "Falta completar un campo " });
-    // }
 
     await addPost(titulo, url, descripcion, likes);
     res.send("Post Agregado con existo");
   } catch (error) {
     res.json({ message: "El recurso no esta disponible " });
+  }
+});
+
+app.put("/posts/like/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await addLike(id);
+    res.status(200).json({
+      message: "Post Actualizado",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+app.delete("/posts/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await deletePost(id);
+    res.status(200).json({
+      message: "Elemento ELiminado",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
   }
 });
 
